@@ -27,8 +27,10 @@ namespace closedxmltest
             {
                 var worksheet = workbook.Worksheets.Add("Testing");
 
-                worksheet.Cell(1, 1).Value = "Test Column 1";
-                worksheet.Cell(1, 2).Value = "Test Column 2";
+
+
+                worksheet.Cell("A1").Value = "Test Column 1";
+                worksheet.Cell("B1").Value = "Test Column 2";
 
                 SetColorAndBorder(worksheet.Cell("A1"));
                 SetColorAndBorder(worksheet.Cell("B1"));
@@ -40,23 +42,14 @@ namespace closedxmltest
                 for (var i = 1; i <= 10; i++)
                 {
                     var rowId = i + 1;
-                    System.Console.WriteLine($"Row: {rowId}");
-                    if (rowId % 2 == 0)
-                    {
-                        worksheet.Cell(rowId, 1).Value = $"Row {rowId}: {1}";
-                        worksheet.Cell(rowId, 2).Value = $"Row {rowId}: {2}";
-                    }
-                    else
-                    {
-                        worksheet.Cell(rowId, 1).Value = $"Row {rowId}: {1}";
-                        worksheet.Cell(rowId, 2).Value = $"Row {rowId}: {2}";
 
-                    }
+                    worksheet.Cell(rowId, 1).Value = $"Row {rowId - 1}: Col 1";
+                    worksheet.Cell(rowId, 2).Value = $"Row {rowId - 1}: Col 2";
                 }
 
                 var autoFilter = worksheet.RangeUsed().SetAutoFilter();
 
-                autoFilter.Column(1).AddFilter("Row 6: 1").AddFilter("Row 3: 1");
+                autoFilter.Column(1).AddFilter("Row 6: Col 1").AddFilter("Row 3: Col 1");
 
                 workbook.SaveAs("MyTest.xlsx");
 
